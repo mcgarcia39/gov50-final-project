@@ -12,3 +12,10 @@ output:
 ## Project thoughts
 
 I am interested in exploring data related to the criminal justice system and its relationship with housing insecurity. Specifically, I am interested in researching whether evictions can lead a person to have contact with the criminal justice system and commit low-level crimes.  
+
+```{r}
+library(readr)
+evictions_ny <- read_csv("C:/Users/nerva/Downloads/Fall 23/Gov 50/Week 4/gov50-final-project/newyork_monthly_2020_2021.csv")
+evictions_ny
+```
+

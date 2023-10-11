@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","newyork_monthly_2020_2021.csv"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1519,7 +1519,29 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="d-article">
 <h2 id="project-thoughts">Project thoughts</h2>
 <p>I am interested in exploring data related to the criminal justice system and its relationship with housing insecurity. Specifically, I am interested in researching whether evictions can lead a person to have contact with the criminal justice system and commit low-level crimes.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://readr.tidyverse.org'>readr</a></span><span class='op'>)</span></span>
+<span><span class='va'>evictions_ny</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"C:/Users/nerva/Downloads/Fall 23/Gov 50/Week 4/gov50-final-project/newyork_monthly_2020_2021.csv"</span><span class='op'>)</span></span>
+<span><span class='va'>evictions_ny</span></span></code></pre>
+</div>
+<pre><code># A tibble: 13,545 × 7
+   type     GEOID racial_majority month   filings_2020 filings_avg
+   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;           &lt;chr&gt;          &lt;dbl&gt;       &lt;dbl&gt;
+ 1 Zip Code 10001 White           01/2020           51        55  
+ 2 Zip Code 10001 White           02/2020           23        49.3
+ 3 Zip Code 10001 White           03/2020           20        48.3
+ 4 Zip Code 10001 White           04/2020            0        41.7
+ 5 Zip Code 10001 White           05/2020            0        42  
+ 6 Zip Code 10001 White           06/2020            2        55.3
+ 7 Zip Code 10001 White           07/2020            4        64.7
+ 8 Zip Code 10001 White           08/2020           38        59.3
+ 9 Zip Code 10001 White           09/2020           17        45.3
+10 Zip Code 10001 White           10/2020           48        53  
+# ℹ 13,535 more rows
+# ℹ 1 more variable: last_updated &lt;date&gt;</code></pre>
+</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
