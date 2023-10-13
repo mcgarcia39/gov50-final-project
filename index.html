@@ -1541,7 +1541,37 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 # ℹ 13,535 more rows
 # ℹ 1 more variable: last_updated &lt;date&gt;</code></pre>
 </div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>This data is provided by the Eviction Lab at Princeton University.</p>
+<p>Peter Hepburn, Jacob Haas, Renee Louis, Adam Chapnik, Danny Grubbs-Donovan, Olivia Jin, Jasmine Rangel, and Matthew Desmond. Eviction Tracking System: Version 2.0. Princeton: Princeton University, 2020. www.evictionlab.org</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://readr.tidyverse.org'>readr</a></span><span class='op'>)</span></span>
+<span><span class='va'>nyincarceration</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"C:/Users/nerva/Downloads/Fall 23/Gov 50/Final Project/IncarcerationDataNYZipCode3.csv"</span><span class='op'>)</span></span>
+<span><span class='va'>nyincarceration</span></span></code></pre>
+</div>
+<pre><code># A tibble: 1,826 × 6
+   `New York Zip Codes` City           Number of people in state pri…¹
+                  &lt;dbl&gt; &lt;chr&gt;                                    &lt;dbl&gt;
+ 1                 6390 Fishers Island                               0
+ 2                10001 New York City                               34
+ 3                10002 New York City                              167
+ 4                10003 New York City                               37
+ 5                10004 New York City                                3
+ 6                10005 New York City                                2
+ 7                10006 New York City                                3
+ 8                10007 New York City                                5
+ 9                10009 New York City                              154
+10                10010 New York City                               16
+# ℹ 1,816 more rows
+# ℹ abbreviated name:
+#   ¹​`Number of people in state prison from each ZIP code, 2020`
+# ℹ 3 more variables: `Census Population, 2020` &lt;dbl&gt;,
+#   `Total Population, 2020` &lt;dbl&gt;,
+#   `Imprisonment Rate per 100,000` &lt;dbl&gt;</code></pre>
+</div>
+<p>This data is provided by the Prison Policy Initiative.</p>
+<p>Proposal: Do evictions lead to greater incarceration rates? In this study, I plan to examine the relationship between eviction rates in a particular zip code in New York and their corresponding incarceration rate. I hypothesize that the zip codes with the highest eviction filing rates have the highest number of incarcerated people. Evictions disproportionately impact poor people of color who live in disadvantaged areas and expose them to the legal system through housing court. Recent scholarship has tried to understand the effects of eviction on families and adults individually. In particular, the work of sociologists Aaron Gottlieb and Jessica Moose has shown that mothers who have been evicted more than two times have a higher chance of experiencing criminal justice involvement and that both recent and less recent evictions are associated with criminal justice involvement (Gottlieb &amp; Moose 2018). Using data from the Eviction Lab and the Prison Policy Initiative, I would like to use linear regression analysis to determine whether evictions can predict contact with the criminal justice system. I am using the Eviction Lab’s 2020-2023 data on eviction filings in NY and the Prison Policy Initiative’s 2020 data on incarceration in NY, both separated by zip code. My unit of analysis is a zip code. My explanatory variable of interest is the eviction filing rate per month per zip code, and it is measured by taking the average filings for the zip code over the baseline years (2016-2018) for that month. My outcome variable of interest is the incarceration rate in each unique zip code, and it is measured as the imprisonment rate per 100,000 people. If I observe greater incarceration rates in zip codes with higher eviction rates, this would provide support for my hypothesis. If, on the other hand, I observe lower incarceration rates in zip codes with high eviction rates, this would provide evidence against my hypothesis. Moving forward, there are potential limitations in my study that I must address. First, it is possible to have a confounder. In this case, it can be that lower incomes are affecting whether a person is being evicted or having contact with the justice system. To deal with confounding variables, I could merge my data with Census tracts to control for the income. Additionally, evictions are not random so I would need to address this before analyzing my data. Ultimately, I would want to show regression such as “for every one unit increase/decrease of evictions filed, there is x% increase/decrease in the incarceration rate.” To be more specific, I would find an equation to show this relationship clearly (“A x% increase/drop in eviction filing rates results in a x% increase/drop in the incarceration rate”).</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

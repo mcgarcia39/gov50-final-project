@@ -18,4 +18,19 @@ library(readr)
 evictions_ny <- read_csv("C:/Users/nerva/Downloads/Fall 23/Gov 50/Week 4/gov50-final-project/newyork_monthly_2020_2021.csv")
 evictions_ny
 ```
+This data is provided by the Eviction Lab at Princeton University.
+
+Peter Hepburn, Jacob Haas, Renee Louis, Adam Chapnik, Danny Grubbs-Donovan, Olivia Jin, Jasmine Rangel, and Matthew Desmond. Eviction Tracking System: Version 2.0. Princeton: Princeton University, 2020. www.evictionlab.org
+
+
+```{r}
+library(readr)
+nyincarceration <- read_csv("C:/Users/nerva/Downloads/Fall 23/Gov 50/Final Project/IncarcerationDataNYZipCode3.csv")
+nyincarceration
+```
+This data is provided by the Prison Policy Initiative.
+
+
+Proposal: Do evictions lead to greater incarceration rates? In this study, I plan to examine the relationship between eviction rates in a particular zip code in New York and their corresponding incarceration rate. I hypothesize that the zip codes with the highest eviction filing rates have the highest number of incarcerated people. Evictions disproportionately impact poor people of color who live in disadvantaged areas and expose them to the legal system through housing court. Recent scholarship has tried to understand the effects of eviction on families and adults individually. In particular, the work of sociologists Aaron Gottlieb and Jessica Moose has shown that mothers who have been evicted more than two times have a higher chance of experiencing criminal justice involvement and that both recent and less recent evictions are associated with criminal justice involvement (Gottlieb & Moose 2018). Using data from the Eviction Lab and the Prison Policy Initiative, I would like to use linear regression analysis to determine whether evictions can predict contact with the criminal justice system. I am using the Eviction Lab's 2020-2023 data on eviction filings in NY and the Prison Policy Initiative's 2020 data on incarceration in NY, both separated by zip code. My unit of analysis is a zip code. My explanatory variable of interest is the eviction filing rate per month per zip code, and it is measured by taking the average filings for the zip code over the baseline years (2016-2018) for that month. My outcome variable of interest is the incarceration rate in each unique zip code, and it is measured as the imprisonment rate per 100,000 people. If I observe greater incarceration rates in zip codes with higher eviction rates, this would provide support for my hypothesis. If, on the other hand, I observe lower incarceration rates in zip codes with high eviction rates, this would provide evidence against my hypothesis. Moving forward, there are potential limitations in my study that I must address. First, it is possible to have a confounder. In this case, it can be that lower incomes are affecting whether a person is being evicted or having contact with the justice system. To deal with confounding variables, I could merge my data with Census tracts to control for the income. Additionally, evictions are not random so I would need to address this before analyzing my data. Ultimately, I would want to show regression such as "for every one unit increase/decrease of evictions filed, there is x% increase/decrease in the incarceration rate." To be more specific, I would find an equation to show this relationship clearly ("A x% increase/drop in eviction filing rates results in a x% increase/drop in the incarceration rate").     
+
 
