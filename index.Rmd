@@ -34,3 +34,67 @@ This data is provided by the Prison Policy Initiative.
 Proposal: Do evictions lead to greater incarceration rates? In this study, I plan to examine the relationship between eviction rates in a particular zip code in New York and their corresponding incarceration rate. I hypothesize that the zip codes with the highest eviction filing rates have the highest number of incarcerated people. Evictions disproportionately impact poor people of color who live in disadvantaged areas and expose them to the legal system through housing court. Recent scholarship has tried to understand the effects of eviction on families and adults individually. In particular, the work of sociologists Aaron Gottlieb and Jessica Moose has shown that mothers who have been evicted more than two times have a higher chance of experiencing criminal justice involvement and that both recent and less recent evictions are associated with criminal justice involvement (Gottlieb & Moose 2018). Using data from the Eviction Lab and the Prison Policy Initiative, I would like to use linear regression analysis to determine whether evictions can predict contact with the criminal justice system. I am using the Eviction Lab's 2020-2023 data on eviction filings in NY and the Prison Policy Initiative's 2020 data on incarceration in NY, both separated by zip code. My unit of analysis is a zip code. My explanatory variable of interest is the eviction filing rate per month per zip code, and it is measured by taking the average filings for the zip code over the baseline years (2016-2018) for that month. My outcome variable of interest is the incarceration rate in each unique zip code, and it is measured as the imprisonment rate per 100,000 people. If I observe greater incarceration rates in zip codes with higher eviction rates, this would provide support for my hypothesis. If, on the other hand, I observe lower incarceration rates in zip codes with high eviction rates, this would provide evidence against my hypothesis. Moving forward, there are potential limitations in my study that I must address. First, it is possible to have a confounder. In this case, it can be that lower incomes are affecting whether a person is being evicted or having contact with the justice system. To deal with confounding variables, I could merge my data with Census tracts to control for the income. Additionally, evictions are not random so I would need to address this before analyzing my data. Ultimately, I would want to show regression such as "for every one unit increase/decrease of evictions filed, there is x% increase/decrease in the incarceration rate." To be more specific, I would find an equation to show this relationship clearly ("A x% increase/drop in eviction filing rates results in a x% increase/drop in the incarceration rate").     
 
 
+## Milestone 3
+
+```{r}
+library(dplyr)
+```
+
+
+```{r}
+evictions_ny$GEOID <- as.numeric(evictions_ny$GEOID)
+class(evictions_ny$GEOID)
+```
+```{r}
+evictions_ny |>
+  count(GEOID) |>
+  filter(n > 1)
+
+nyincarceration |>
+  count(`New York Zip Codes`) |>
+  filter(n > 1)
+```
+```{r}
+nyincarceration <- nyincarceration |>
+  filter(`City` == "New York City") ##filtering data to only show NYC data
+nyincarceration
+```
+
+
+
+```{r}
+table1 <- evictions_ny |>
+  inner_join(nyincarceration, by = c("GEOID" = "New York Zip Codes")) 
+table2 <- table1 |> group_by(GEOID) |>
+  summarize(avg_yearly_filings = mean(filings_avg),
+            avg_yearly_imprison_rate = mean(`Imprisonment Rate per 100,000`))
+
+table3 <- left_join(table2, table1 |> select(GEOID, racial_majority) |> group_by(GEOID) |> summarize(racial_majority = unique(racial_majority)),
+                    by = "GEOID")
+table3 |>
+  mutate(racial_majority = as.factor(racial_majority))
+
+table4 <- table3[!(table3$GEOID == 10173),]
+
+table5 <- table4[!(table4$GEOID == 10199),]
+table5
+
+```
+
+```{r}
+library(tidyr)
+library(ggplot2)
+
+ggplot(table5, aes(x = avg_yearly_filings,
+             y = avg_yearly_imprison_rate,
+             color = racial_majority)) +
+  geom_point() 
+
+
+```
+
+
+
+
+
+

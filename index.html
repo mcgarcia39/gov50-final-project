@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","newyork_monthly_2020_2021.csv"]}
+  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-8-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","newyork_monthly_2020_2021.csv"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1571,7 +1571,134 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <p>This data is provided by the Prison Policy Initiative.</p>
 <p>Proposal: Do evictions lead to greater incarceration rates? In this study, I plan to examine the relationship between eviction rates in a particular zip code in New York and their corresponding incarceration rate. I hypothesize that the zip codes with the highest eviction filing rates have the highest number of incarcerated people. Evictions disproportionately impact poor people of color who live in disadvantaged areas and expose them to the legal system through housing court. Recent scholarship has tried to understand the effects of eviction on families and adults individually. In particular, the work of sociologists Aaron Gottlieb and Jessica Moose has shown that mothers who have been evicted more than two times have a higher chance of experiencing criminal justice involvement and that both recent and less recent evictions are associated with criminal justice involvement (Gottlieb &amp; Moose 2018). Using data from the Eviction Lab and the Prison Policy Initiative, I would like to use linear regression analysis to determine whether evictions can predict contact with the criminal justice system. I am using the Eviction Lab’s 2020-2023 data on eviction filings in NY and the Prison Policy Initiative’s 2020 data on incarceration in NY, both separated by zip code. My unit of analysis is a zip code. My explanatory variable of interest is the eviction filing rate per month per zip code, and it is measured by taking the average filings for the zip code over the baseline years (2016-2018) for that month. My outcome variable of interest is the incarceration rate in each unique zip code, and it is measured as the imprisonment rate per 100,000 people. If I observe greater incarceration rates in zip codes with higher eviction rates, this would provide support for my hypothesis. If, on the other hand, I observe lower incarceration rates in zip codes with high eviction rates, this would provide evidence against my hypothesis. Moving forward, there are potential limitations in my study that I must address. First, it is possible to have a confounder. In this case, it can be that lower incomes are affecting whether a person is being evicted or having contact with the justice system. To deal with confounding variables, I could merge my data with Census tracts to control for the income. Additionally, evictions are not random so I would need to address this before analyzing my data. Ultimately, I would want to show regression such as “for every one unit increase/decrease of evictions filed, there is x% increase/decrease in the incarceration rate.” To be more specific, I would find an equation to show this relationship clearly (“A x% increase/drop in eviction filing rates results in a x% increase/drop in the incarceration rate”).</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h2 id="milestone-3">Milestone 3</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>evictions_ny</span><span class='op'>$</span><span class='va'>GEOID</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>evictions_ny</span><span class='op'>$</span><span class='va'>GEOID</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span><span class='op'>(</span><span class='va'>evictions_ny</span><span class='op'>$</span><span class='va'>GEOID</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>[1] &quot;numeric&quot;</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>evictions_ny</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='va'>GEOID</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>n</span> <span class='op'>&gt;</span> <span class='fl'>1</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code># A tibble: 301 × 2
+   GEOID     n
+   &lt;dbl&gt; &lt;int&gt;
+ 1 10001    45
+ 2 10002    45
+ 3 10003    45
+ 4 10004    45
+ 5 10005    45
+ 6 10006    45
+ 7 10007    45
+ 8 10008    45
+ 9 10009    45
+10 10010    45
+# ℹ 291 more rows</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>nyincarceration</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='va'>`New York Zip Codes`</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>n</span> <span class='op'>&gt;</span> <span class='fl'>1</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code># A tibble: 0 × 2
+# ℹ 2 variables: New York Zip Codes &lt;dbl&gt;, n &lt;int&gt;</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>nyincarceration</span> <span class='op'>&lt;-</span> <span class='va'>nyincarceration</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>`City`</span> <span class='op'>==</span> <span class='st'>"New York City"</span><span class='op'>)</span> <span class='co'>##filtering data to only show NYC data</span></span>
+<span><span class='va'>nyincarceration</span></span></code></pre>
+</div>
+<pre><code># A tibble: 69 × 6
+   `New York Zip Codes` City          Number of people in state pris…¹
+                  &lt;dbl&gt; &lt;chr&gt;                                    &lt;dbl&gt;
+ 1                10001 New York City                               34
+ 2                10002 New York City                              167
+ 3                10003 New York City                               37
+ 4                10004 New York City                                3
+ 5                10005 New York City                                2
+ 6                10006 New York City                                3
+ 7                10007 New York City                                5
+ 8                10009 New York City                              154
+ 9                10010 New York City                               16
+10                10011 New York City                               44
+# ℹ 59 more rows
+# ℹ abbreviated name:
+#   ¹​`Number of people in state prison from each ZIP code, 2020`
+# ℹ 3 more variables: `Census Population, 2020` &lt;dbl&gt;,
+#   `Total Population, 2020` &lt;dbl&gt;,
+#   `Imprisonment Rate per 100,000` &lt;dbl&gt;</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>table1</span> <span class='op'>&lt;-</span> <span class='va'>evictions_ny</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>inner_join</a></span><span class='op'>(</span><span class='va'>nyincarceration</span>, by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"GEOID"</span> <span class='op'>=</span> <span class='st'>"New York Zip Codes"</span><span class='op'>)</span><span class='op'>)</span> </span>
+<span><span class='va'>table2</span> <span class='op'>&lt;-</span> <span class='va'>table1</span> <span class='op'>|&gt;</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>GEOID</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>avg_yearly_filings <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>filings_avg</span><span class='op'>)</span>,</span>
+<span>            avg_yearly_imprison_rate <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>`Imprisonment Rate per 100,000`</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>table3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>table2</span>, <span class='va'>table1</span> <span class='op'>|&gt;</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>GEOID</span>, <span class='va'>racial_majority</span><span class='op'>)</span> <span class='op'>|&gt;</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>GEOID</span><span class='op'>)</span> <span class='op'>|&gt;</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>racial_majority <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='va'>racial_majority</span><span class='op'>)</span><span class='op'>)</span>,</span>
+<span>                    by <span class='op'>=</span> <span class='st'>"GEOID"</span><span class='op'>)</span></span>
+<span><span class='va'>table3</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>racial_majority <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>racial_majority</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code># A tibble: 69 × 4
+   GEOID avg_yearly_filings avg_yearly_imprison_rate racial_majority
+   &lt;dbl&gt;              &lt;dbl&gt;                    &lt;dbl&gt; &lt;fct&gt;          
+ 1 10001              50.0                       104 White          
+ 2 10002             173.                        203 Other          
+ 3 10003              40.8                        65 White          
+ 4 10004               3.41                       70 White          
+ 5 10005               9.04                       19 White          
+ 6 10006               3.99                       70 White          
+ 7 10007               2.58                       65 White          
+ 8 10009             139.                        249 White          
+ 9 10010              23.1                        47 White          
+10 10011              54.1                        82 White          
+# ℹ 59 more rows</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>table4</span> <span class='op'>&lt;-</span> <span class='va'>table3</span><span class='op'>[</span><span class='op'>!</span><span class='op'>(</span><span class='va'>table3</span><span class='op'>$</span><span class='va'>GEOID</span> <span class='op'>==</span> <span class='fl'>10173</span><span class='op'>)</span>,<span class='op'>]</span></span>
+<span></span>
+<span><span class='va'>table5</span> <span class='op'>&lt;-</span> <span class='va'>table4</span><span class='op'>[</span><span class='op'>!</span><span class='op'>(</span><span class='va'>table4</span><span class='op'>$</span><span class='va'>GEOID</span> <span class='op'>==</span> <span class='fl'>10199</span><span class='op'>)</span>,<span class='op'>]</span></span>
+<span><span class='va'>table5</span></span></code></pre>
+</div>
+<pre><code># A tibble: 67 × 4
+   GEOID avg_yearly_filings avg_yearly_imprison_rate racial_majority
+   &lt;dbl&gt;              &lt;dbl&gt;                    &lt;dbl&gt; &lt;chr&gt;          
+ 1 10001              50.0                       104 White          
+ 2 10002             173.                        203 Other          
+ 3 10003              40.8                        65 White          
+ 4 10004               3.41                       70 White          
+ 5 10005               9.04                       19 White          
+ 6 10006               3.99                       70 White          
+ 7 10007               2.58                       65 White          
+ 8 10009             139.                        249 White          
+ 9 10010              23.1                        47 White          
+10 10011              54.1                        82 White          
+# ℹ 57 more rows</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>table5</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>avg_yearly_filings</span>,</span>
+<span>             y <span class='op'>=</span> <span class='va'>avg_yearly_imprison_rate</span>,</span>
+<span>             color <span class='op'>=</span> <span class='va'>racial_majority</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> </span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
+</div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
