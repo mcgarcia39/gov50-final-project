@@ -88,7 +88,10 @@ library(ggplot2)
 ggplot(table5, aes(x = avg_yearly_filings,
              y = avg_yearly_imprison_rate,
              color = racial_majority)) +
-  geom_point() 
+  geom_point() +
+  labs(title = "Relationship between eviction filings in New York City and the imprisonment rate in 2020",
+       x = "Average Eviction Filings in 2020",
+       y = "Imprisonment Rate (per 100,000) in 2020")
 
 
 ```
