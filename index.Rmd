@@ -39,39 +39,34 @@ Proposal: Do evictions lead to greater incarceration rates? In this study, I pla
 ```{r}
 library(dplyr)
 ```
-
-
 ```{r}
 evictions_ny$GEOID <- as.numeric(evictions_ny$GEOID)
-class(evictions_ny$GEOID)
 ```
-```{r}
-evictions_ny |>
-  count(GEOID) |>
-  filter(n > 1)
+I made the GEOID variable numeric.
 
-nyincarceration |>
-  count(`New York Zip Codes`) |>
-  filter(n > 1)
-```
 ```{r}
 nyincarceration <- nyincarceration |>
-  filter(`City` == "New York City") ##filtering data to only show NYC data
+  filter(`City` == "New York City") 
 nyincarceration
 ```
-
+I decided to only look at zip codes in New York City to reduce the amount of data I had to analyze.
 
 
 ```{r}
 table1 <- evictions_ny |>
-  inner_join(nyincarceration, by = c("GEOID" = "New York Zip Codes")) 
-table2 <- table1 |> group_by(GEOID) |>
+  inner_join(nyincarceration, by = c("GEOID" = "New York Zip Codes"))
+
+table2 <- table1 |> 
+  group_by(GEOID) |>
   summarize(avg_yearly_filings = mean(filings_avg),
             avg_yearly_imprison_rate = mean(`Imprisonment Rate per 100,000`))
 
-table3 <- left_join(table2, table1 |> select(GEOID, racial_majority) |> group_by(GEOID) |> summarize(racial_majority = unique(racial_majority)),
-                    by = "GEOID")
-table3 |>
+table3 <- left_join(table2, table1 |> 
+          select(GEOID, racial_majority) |> 
+          group_by(GEOID) |> 
+          summarize(racial_majority = unique(racial_majority)), by = "GEOID")
+
+table3 |> 
   mutate(racial_majority = as.factor(racial_majority))
 
 table4 <- table3[!(table3$GEOID == 10173),]
@@ -80,6 +75,11 @@ table5 <- table4[!(table4$GEOID == 10199),]
 table5
 
 ```
+In table 1, I used the inner join function to combine the data from both data sets by zip code using the GEOID name. 
+In table 2, I created the variables avg_yearly_filings and avg_yearly_imprison_rate so that my eviction data would be for the whole year instead of month to coincide with the yearly imprisonment rate. 
+In table 3, I brought back the racial majority variable that showed the demographics of each zip code by using the left join variable. To make sure the racial majority variable showed up on my plot, I mutated it and changed it to a factor. 
+In table 4, I removed the zip code 10173 because it was an outlier and was not allowing me to see the pattern in the plot. 
+In table 5, I also removed the zip code 10199. I intend to find out why these zip codes are outliers.
 
 ```{r}
 library(tidyr)
@@ -89,13 +89,13 @@ ggplot(table5, aes(x = avg_yearly_filings,
              y = avg_yearly_imprison_rate,
              color = racial_majority)) +
   geom_point() +
-  labs(title = "Relationship between eviction filings in New York City and the imprisonment rate in 2020",
+  labs(title = "Relationship between eviction filings in New York City and the 
+       imprisonment rate in 2020",
        x = "Average Eviction Filings in 2020",
        y = "Imprisonment Rate (per 100,000) in 2020")
 
-
 ```
-
+I created a scatter plot with the average filings for a given zip code as the explanatory variable and the imprisonment rate as the outcome variable. After taking out the outliers, the plot showed a cluster of data at the bottom left for white zip codes, showing that white zip codes have lower numbers of eviction filings and a smaller imprisonment rate. Interestingly, the Latinx zip codes are clustered in a positive direction in the middle of the plot, suggesting that the more eviction filings a Latinx zip code has, the higher the imprisonment rate is for that zip code. The zip codes labeled "Other" (which means another racial/ethnic group is the majority, or there is no group with >50% of the population in the zip code) had a high imprisonment rate no matter the average eviction filings. Black zip codes have a similar average of eviction filings as Latinx zip codes but a higher imprisonment rate than Latinx zip codes. 
 
 
 
