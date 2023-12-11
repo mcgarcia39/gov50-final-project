@@ -1,7 +1,7 @@
 ---
 title: "Understanding the relationship between eviction and incarceration"
 author: "Minerva Garcia"
-description: "This study aimed to answer the following research question: Is there a correlation between eviction rates and incarceration? Simple statistical analysis reveals a strong positive correlation between eviction filing rates and incarceration rates in New York City zip codes."
+description: "This study aimed to answer the following research question: Is there a correlation between eviction rates and incarceration rates? Simple statistical analysis reveals a strong positive correlation between eviction filing rates and incarceration rates in New York City zip codes."
 output:
   distill::distill_article:
     self_contained: false
@@ -11,7 +11,7 @@ output:
 
 ## Introduction
 
-The United States has an affordable housing and mass incarceration problem. Sociologist Matthew Desmond, founder of the Eviction Lab at Princeton University, estimated that an eviction is filed every four minutes. According to a 2023 report by the Prison Policy Initiative, the prison population is increasing as pandemic-era reform is retracted. Both crises disproportionately impact marginalized communities, especially poor Latinxs and Black people. Far too little attention has been paid to the relationship between mass incarceration and the eviction crisis in the U.S. despite its devastating effects. Although meaningful research has been conducted on the importance of transitional housing as a prisoner reentry program, there is a general lack of research on the relationship between housing insecurity and incarceration before an individual makes contact with the criminal justice system. Evictions disproportionately impact poor people of color who live in disadvantaged neighborhoods and expose them to the legal system through housing court. Recent scholarship has tried to understand the effects of eviction on families and adults individually. In particular, the work of sociologists Aaron Gottlieb and Jessica Moose has shown that mothers who have been evicted more than two times have a higher chance of experiencing criminal justice involvement and that both recent and less recent evictions are associated with criminal justice involvement (Gottlieb and Moose, 2018). This finding informed the guiding research question for my project: Is there a correlation between eviction and incarceration? In this study, I examine the relationship between eviction rates in a particular zip code in New York City and its corresponding incarceration rate. I hypothesized that the zip codes with the highest eviction filing rates have the highest number of incarcerated people. After running statistical tests, I conclude that there is a statistically significant correlation between eviction rates and incarceration rates in New York City zip codes. 
+The United States has an affordable housing and mass incarceration problem. Sociologist Matthew Desmond, founder of the Eviction Lab at Princeton University, estimated that an eviction is filed every four minutes. According to a 2023 report by the Prison Policy Initiative, the prison population is increasing as pandemic-era reform is retracted. Both crises disproportionately impact marginalized communities, especially poor Latinxs and Black people. Far too little attention has been paid to the relationship between mass incarceration and the eviction crisis in the U.S. despite its devastating effects. Although meaningful research has been conducted on the importance of transitional housing as a prisoner reentry program, there is a general lack of research on the relationship between housing insecurity and incarceration before an individual makes contact with the criminal justice system. Evictions disproportionately impact poor people of color who live in disadvantaged neighborhoods and expose them to the legal system through housing court. Recent scholarship has tried to understand the effects of eviction on families and adults individually. In particular, the work of sociologists Aaron Gottlieb and Jessica Moose has shown that mothers who have been evicted more than two times have a higher chance of experiencing criminal justice involvement and that both recent and less recent evictions are associated with criminal justice involvement (Gottlieb and Moose, 2018). This finding informed the guiding research question for my project: Is there a correlation between eviction and incarceration? In this study, I examine the relationship between eviction rates in a particular zip code in New York City and its corresponding incarceration rate. I hypothesized that the zip codes with the highest eviction filing rates have the highest number of incarcerated people. After running statistical tests, I conclude that there is a statistically significant positive correlation between the eviction rate of a particular zip code in New York City and its corresponding incarceration rate. 
 
 ## Data Section
 
@@ -64,10 +64,10 @@ ggplot(nyc_eviction_imprison, aes(x = avg_yearly_filings,
 ```
 An initial look at the scatter plot suggests a high correlation between the eviction filing rate and imprisonment rate, with striking differences for non-white-majority zip codes compared to white-majority zip codes. There is a cluster of data points for the white-majority zip codes in New York City in the bottom left, indicating that white-majority zip codes have low average eviction filing rates and low imprisonment rates. Interestingly, the Latinx-majority zip codes are clustered in a positive direction in the middle of the plot. This suggests that the more eviction filings a Latinx zip code has, the higher the imprisonment rate is for that zip code. The zip codes labeled "Other" (which means another racial/ethnic group is the majority, or there is no group with >50% of the population in the zip code) had a high imprisonment rate no matter the average eviction filing rate. Black-majority zip codes have a similar average eviction filing rate as Latinx-majority zip codes but a much higher imprisonment rate than Latinx-majority and white-majority zip codes.
 
-
+After I merged both datasets and created `nyc_eviction_imprison`, I created a plot that visualizes the main outcome of interest which is the average yearly imprisonment rate of each zip code in New York City. This plot shows the frequency of the dependent variable.
 
 ```{r}
-plot(nyc_eviction_imprison$avg_yearly_imprison_rate, main = "Summary of Dependent Variable", 
+plot(nyc_eviction_imprison$avg_yearly_imprison_rate, main = "Frequency of Dependent Variable", 
      xlab = "Index", ylab = "Average Yearly Imprisonment Rate")
 ```
 
@@ -80,12 +80,17 @@ nyc_eviction_imprison <- nyc_eviction_imprison |>
     TRUE ~ 0))
 
 library(modelsummary)
+var_labels <- c("(Intercept)" = "Intercept",
+                "avg_yearly_filings" = "Average Yearly Eviction Filings",
+                "white_ind" = "White-Majority Zip Code Indicator")
 model1 <- lm(avg_yearly_imprison_rate ~ avg_yearly_filings, data = nyc_eviction_imprison)
 
 model2 <- summary(lm(avg_yearly_imprison_rate ~ avg_yearly_filings +
      white_ind, data = nyc_eviction_imprison))
 
-modelsummary::modelsummary(list("NYC - 1 explanatory var." = model1, "NYC - 2 explanatory var." = model2), 
+modelsummary(coef_map = var_labels, 
+                           list("Model 1: NYC - 1 explanatory variable" = model1,
+                                "Model 2: NYC - 2 explanatory variables" = model2), 
              stars = c("*" = 0.05, "**" = 0.01, "***" = 0.001))
 ```
 This regression indicates that for every unit increase in the average yearly eviction filings, there is an increase of 1.813 percentage points in the imprisonment rate, conditional on whether a zip code has a white majority. This difference is statistically significant at the 0.001 level. Model 1 shows that even if we do not control for the racial makeup of a given zip code, the relationship between the average yearly eviction filings and the imprisonment rate is still statistically significant at the 0.001 level. 
@@ -113,7 +118,7 @@ This study on New York City has found that a strong correlation between a zip co
 
 While this study used data on New York City, it is likely that we will find similar associations in large urban cities like Chicago, Boston, and Philadelphia. I have attempted to control for one possible confounder (whether a zip code has a white-majority). If I had more time, I would have also controlled for zip code's income level and distinguishing which zip codes were low-income. Controlling for income is an important confounder because both eviction and incarceration disproportionately impact people in poverty. I would have merged another dataset containing each census tract's income data and ran another regression. Another limitation is that there were only 67 observations (zip codes) in the regression and most zip codes had a white-majority. So, my findings have to be interpreted with caution to not overgeneralize to all populations. Additionally, evictions are not random so there is potential for bias (such as a person's income level). Although there are limitations to my study, my findings can still be interpreted with caution. 
 
-Overall, this study reveals a deeper connection between eviction rates in zip codes and their incarceration rate that has previously been overlooked. There is a strong positive correlation between eviction and incarceration, suggesting that eviction impacts people's lives beyond the forced removal from their homes. This study should be expanded on to determine whether evictions can predict contact with the criminal justice system. 
+Overall, this study reveals a deeper connection between eviction rates in zip codes and their incarceration rate that has previously been overlooked. There is a strong positive correlation between eviction and incarceration, suggesting that eviction impacts people's lives beyond the forced removal from their homes. Future research should expand on my study and examine a causal effect to determine whether evictions can lead to contact with the criminal justice system. 
 
 ## References
 
@@ -123,5 +128,5 @@ Peter Hepburn, Jacob Haas, Renee Louis, Adam Chapnik, Danny Grubbs-Donovan, Oliv
 
 ZIP Code Appendix - Where people in prison come from - New York (2020). https://www.prisonpolicy.org/origin/ny/2020/zipcode.html 
 
-Sawyer, W., &amp; Wagner, P. (2023, March 14). Mass Incarceration: The Whole Pie 2023. Prison Policy Initiative. https://www.prisonpolicy.org/reports/pie2023.html 
+Sawyer, W., & Wagner, P. (2023, March 14). Mass Incarceration: The Whole Pie 2023. Prison Policy Initiative. https://www.prisonpolicy.org/reports/pie2023.html 
 
