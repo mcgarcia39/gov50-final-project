@@ -1,7 +1,7 @@
 ---
 title: "Understanding the relationship between eviction and incarceration"
 author: "Minerva Garcia"
-description: "Is there a correlation between eviction rates and incarceration?"
+description: "This study aimed to answer the following research question: Is there a correlation between eviction rates and incarceration? Simple statistical analysis reveals a strong positive correlation between eviction filing rates and incarceration rates in New York City zip codes."
 output:
   distill::distill_article:
     self_contained: false
